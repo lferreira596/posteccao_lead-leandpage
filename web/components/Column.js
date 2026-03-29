@@ -6,7 +6,7 @@ export default function Column({ status, leads, onUpdate }) {
   const cfg = STATUS_CONFIG[status]
 
   return (
-    <div className={`flex-shrink-0 w-64 rounded-2xl border-2 ${cfg.bg} ${cfg.border} flex flex-col`}>
+    <div className={`flex-shrink-0 w-64 rounded-2xl border-2 ${cfg.bg} ${cfg.border} flex flex-col h-full max-h-full`}>
       {/* Cabeçalho da coluna */}
       <div className="px-3 py-2.5 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -24,7 +24,7 @@ export default function Column({ status, leads, onUpdate }) {
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className={`flex-1 px-2 pb-2 min-h-16 rounded-b-2xl transition-colors ${
+            className={`flex-1 px-2 pb-2 min-h-16 rounded-b-2xl transition-colors overflow-y-auto ${
               snapshot.isDraggingOver ? 'bg-white/60' : ''
             }`}
           >

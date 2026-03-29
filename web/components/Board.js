@@ -49,7 +49,7 @@ export default function Board({ initialLeads }) {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex gap-3 p-4 overflow-x-auto min-h-[calc(100vh-64px)] items-start">
+      <div className="flex gap-3 p-4 overflow-x-auto h-[calc(100vh-64px)] items-start">
         {STATUS_ORDER.map(status => (
           <Column
             key={status}
