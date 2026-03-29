@@ -11,10 +11,26 @@ export default function ConfigModal({ config, onClose, onSave }) {
     min_reviews:   config?.min_reviews   ?? 100,
     limit_results: config?.limit_results ?? 100,
   })
-  const [saving, setSaving] = useState(false)
-  const [saved, setSaved] = useState(false)
+  const [saving,    setSaving]    = useState(false)
+  const [saved,     setSaved]     = useState(false)
+  const [extraindo, setExtraindo] = useState(false)
+  const [resultado, setResultado] = useState(null)
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
+
+  const handleExtrair = async () => {
+    setExtraindo(true)
+    setResultado(null)
+    try {
+      const resp = await fetch('/api/extrair', { method: 'POST' })
+      const data = await resp.json()
+      setResultado(data)
+    } catch (e) {
+      setResultado({ error: 'Erro ao conectar com a API.' })
+    } finally {
+      setExtraindo(false)
+    }
+  }
 
   const handleSave = async () => {
     setSaving(true)
@@ -153,6 +169,40 @@ export default function ConfigModal({ config, onClose, onSave }) {
           >
             {saved ? '✅ Salvo!' : saving ? 'Salvando...' : '💾 Salvar configurações'}
           </button>
+
+          <div className="border-t pt-4">
+            <p className="text-xs text-gray-400 mb-2">
+              Salve a configuração antes de extrair. A extração usa os parâmetros acima para buscar novos leads no Google Maps.
+            </p>
+            <button
+              onClick={handleExtrair}
+              disabled={extraindo}
+              className="w-full bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white py-2.5 rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2"
+            >
+              {extraindo
+                ? <><span className="animate-spin">⏳</span> Buscando leads...</>
+                : '🔍 Iniciar Extração de Dados'}
+            </button>
+
+            {resultado && (
+              <div className={`mt-3 p-3 rounded-lg text-sm ${resultado.error ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-800'}`}>
+                {resultado.error
+                  ? `❌ ${resultado.error}`
+                  : <>
+                      <p className="font-semibold">{resultado.mensagem}</p>
+                      <div className="flex gap-4 mt-1 text-xs">
+                        <span>🆕 Novos: <strong>{resultado.novos}</strong></span>
+                        <span>♻️ Já existiam: <strong>{resultado.existentes}</strong></span>
+                        <span>📦 Total encontrados: <strong>{resultado.total}</strong></span>
+                      </div>
+                      {resultado.novos > 0 && (
+                        <p className="text-xs mt-1 text-green-600">Recarregue a página para ver os novos leads no Kanban.</p>
+                      )}
+                    </>
+                }
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
