@@ -48,12 +48,23 @@ export default function CardModal({ lead, onUpdate, onClose }) {
         {/* ── Cabeçalho ── */}
         <div className="p-5 border-b flex items-start justify-between gap-4">
           <div>
-            <h2 className="font-bold text-lg text-gray-800 leading-tight">{lead.name}</h2>
+            <div className="flex items-center gap-2">
+              <h2 className="font-bold text-lg text-gray-800 leading-tight">{lead.name}</h2>
+              {lead.verified && <span className="text-blue-500 text-sm" title="Verificado no Google">✓</span>}
+              {lead.price_range && <span className="text-xs font-bold text-orange-500 border border-orange-200 rounded px-1">{lead.price_range}</span>}
+            </div>
             <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500 mt-1">
               <span>⭐ {lead.rating}</span>
               <span>💬 {Number(lead.reviews).toLocaleString('pt-BR')} avaliações</span>
               <span>🏙️ {lead.city}</span>
+              {lead.photos_count > 0 && <span>🖼️ {lead.photos_count} fotos</span>}
             </div>
+            {lead.subtypes && (
+              <p className="text-xs text-gray-400 mt-1">{lead.subtypes}</p>
+            )}
+            {lead.description && (
+              <p className="text-xs text-gray-500 mt-1 italic">{lead.description}</p>
+            )}
           </div>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-700 text-xl font-bold shrink-0">✕</button>
         </div>
@@ -108,11 +119,33 @@ export default function CardModal({ lead, onUpdate, onClose }) {
             </div>
           </div>
 
-          {/* ── Telefone (readonly) ── */}
-          <div>
-            <label className="block text-xs font-semibold text-gray-400 uppercase mb-1">Telefone</label>
-            <div className="bg-gray-50 border rounded-lg px-3 py-2 text-sm text-gray-700">{lead.phone}</div>
+          {/* ── Infos do negócio (readonly) ── */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-semibold text-gray-400 uppercase mb-1">Telefone</label>
+              <div className="bg-gray-50 border rounded-lg px-3 py-2 text-sm text-gray-700">{lead.phone}</div>
+            </div>
+            {lead.owner_title && (
+              <div>
+                <label className="block text-xs font-semibold text-gray-400 uppercase mb-1">Proprietário</label>
+                <div className="bg-gray-50 border rounded-lg px-3 py-2 text-sm text-gray-700 truncate">{lead.owner_title}</div>
+              </div>
+            )}
           </div>
+
+          {lead.address && (
+            <div>
+              <label className="block text-xs font-semibold text-gray-400 uppercase mb-1">Endereço</label>
+              <div className="bg-gray-50 border rounded-lg px-3 py-2 text-sm text-gray-700">{lead.address}</div>
+            </div>
+          )}
+
+          {lead.working_hours && (
+            <div>
+              <label className="block text-xs font-semibold text-gray-400 uppercase mb-1">Horário de funcionamento</label>
+              <div className="bg-gray-50 border rounded-lg px-3 py-2 text-sm text-gray-700 whitespace-pre-wrap">{lead.working_hours}</div>
+            </div>
+          )}
 
           {/* ── Observações ── */}
           <div>
