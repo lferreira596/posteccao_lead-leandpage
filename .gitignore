@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Dados sensíveis
+leads_qualificados.json
+leads_fechados.csv
+.env
+.env.local
+
+# Documentação baixada (não necessária no repo)
+Documentos API _ Outscraper.html
+Documentos API _ Outscraper_files/
+
+# Node
+web/node_modules/
+web/.next/

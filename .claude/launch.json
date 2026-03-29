@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Dashboard Leadpage",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "streamlit", "run", "dashboard.py", "--server.port", "8501"],
+      "port": 8501
+    },
+    {
+      "name": "Kanban Web App",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "web"],
+      "port": 3000
+    }
+  ]
+}
